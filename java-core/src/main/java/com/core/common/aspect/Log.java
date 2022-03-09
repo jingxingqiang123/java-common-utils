@@ -1,4 +1,4 @@
-package com.core.log.aspect;
+package com.core.common.aspect;
 
 import java.lang.annotation.*;
 

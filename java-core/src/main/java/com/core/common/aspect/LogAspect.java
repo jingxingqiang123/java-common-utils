@@ -1,4 +1,4 @@
-package com.core.log.aspect;
+package com.core.common.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,7 +20,7 @@ public class LogAspect {
     //② 在类上使用 @Aspect 注解 使之成为切面类
 
     // 切入点
-    @Pointcut(value = "@annotation(Log)")
+    @Pointcut(value = "@annotation(com.core.common.aspect.Log)")
     public void Pointcut() {
     }
 
@@ -32,7 +32,7 @@ public class LogAspect {
      * @return 执行结果
      */
     @Around(value = "Pointcut() && @annotation(log)")
-    public Object interceptor(ProceedingJoinPoint jp, Log log) {
+    public Object interceptor(ProceedingJoinPoint jp, Log log) throws Throwable {
         System.out.println("---------------------------");
         String methodName = jp.getSignature().getName();
         Object result = null;
@@ -41,8 +41,9 @@ public class LogAspect {
             //执行目标方法
             result = jp.proceed();
             System.out.println("【环绕通知中的--->返回通知】：the method 【" + methodName + "】 ends with " + result);
-        } catch (Throwable e) {
-            System.out.println("【环绕通知中的--->异常通知】：the method 【" + methodName + "】 occurs exception " + e);
+        } catch (Throwable throwable) {
+            System.out.println("【环绕通知中的--->异常通知】：the method 【" + methodName + "】 occurs exception " + throwable);
+            throw throwable;
         }
 
         System.out.println("【环绕通知中的--->后置通知】：-----------------end.----------------------");
